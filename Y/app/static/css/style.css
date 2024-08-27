@@ -1,0 +1,131 @@
+/* Estilo geral para o corpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f8fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo do contêiner principal */
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo da navbar */
+.navbar {
+    background-color: #1da1f2;
+    padding: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para os formulários */
+form {
+    margin-bottom: 20px;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+input[type="text"], input[type="password"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+input[type="submit"] {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0d8bec;
+}
+
+/* Estilo para os posts */
+.posts {
+    margin-top: 20px;
+}
+
+.post {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.post:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para a seção de curtidas */
+.like-section {
+    margin-top: 10px;
+}
+
+.like-button {
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.like-button:hover {
+    background-color: #0d8bec;
+}
+
+/* Estilo para os comentários */
+.comments {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px solid #ddd;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+.comment-form button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #657786;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.comment-form button:hover {
+    background-color: #555;
+}

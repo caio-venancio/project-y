@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1>Home</h1>
+  <form action="{{ url_for('home') }}" method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.content.label }}<br>
+      {{ form.content(rows=2, placeholder="What's happening?") }}
+    </div>
+    <div>
+      <input type
