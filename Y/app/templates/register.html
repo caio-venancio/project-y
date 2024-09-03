@@ -2,26 +2,5 @@
 {% block title %}Register{% endblock %}
 {% block content %}
   <h2>Register</h2>
-  <form method="POST" action="{{ url_for('register') }}">
-    {{ form.hidden_tag() }}
-    <div>
-      {{ form.username.label }}<br>
-      {{ form.username(size=32) }}
-    </div>
-    <div>
-      {{ form.email.label }}<br>
-      {{ form.email(size=32) }}
-    </div>
-    <div>
-      {{ form.password.label }}<br>
-      {{ form.password(size=32) }}
-    </div>
-    <div>
-      {{ form.confirm_password.label }}<br>
-      {{ form.confirm_password(size=32) }}
-    </div>
-    <div>
-      {{ form.submit() }}
-    </div>
-  </form>
+
 {% endblock %}
