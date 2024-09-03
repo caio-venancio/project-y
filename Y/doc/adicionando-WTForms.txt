@@ -1,0 +1,7 @@
+1. import WTF
+2. Create Secret Key
+3. Create Form Class #faz isso em forms.py por favorKKKK
+4. Create routing for forms 
+5. add links to navbar
+6. add forms to html 
+7. happiness #swiftie

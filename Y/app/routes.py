@@ -9,10 +9,12 @@ def home():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    #if se for post e tiver os argumentos certos, redirect to login
     return render_template('register.html')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    #if se for post e tiver os argumentos certos, redirect to home
     return render_template('login.html')
 
 @app.route("/logout")
