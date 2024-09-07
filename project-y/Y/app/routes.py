@@ -1,8 +1,8 @@
 print('começando routes')
 from flask import render_template, url_for, flash, redirect, request
 from app import app, db
-from app.forms import Register, Login
-from app.models import Users
+from app.forms import Register, Login, PostForm
+from app.models import Users, Posts
 from werkzeug.security import generate_password_hash
 
 @app.route("/", methods=['GET', 'POST'])
@@ -30,9 +30,8 @@ def register():
         form.name.data = ''
         form.email.data = ''
         form.password_hash.data = ''
-        flash("Registration Form Submitted Successfully")
+        flash("Registration Form Submitted Successfully!")
     our_users = Users.query.order_by(Users.date_added)
-    #if se for post e tiver os argumentos certos, redirect to login
     return render_template('register.html', name = name, password_hash = password_hash, form = form, our_users = our_users)
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -80,10 +79,72 @@ def delete(id):
         db.session.commit()
         flash("User Deleted Successfully!")
         our_users = Users.query.order_by(Users.date_added)
-        return render_template('register.html', name = name, password_hash = password_hash, form = form, our_users = our_users)
+        return redirect(url_for('register'))
     except:
         flash("Whoops! There Was A Problem Deleting The User!")
-        return render_template('register.html', name = name, password_hash = password_hash, form = form, our_users = our_users)
+        return redirect(url_for('register'))
+    
+# Create Add Posts Page
+@app.route('/add-post', methods=['GET', 'POST'])
+def add_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug=form.slug.data)
+        # Add post data to db
+        db.session.add(post)
+        db.session.commit()
+        flash("Post Submitted Successfully!")
+        return redirect(url_for('add_post'))
+    return render_template("add_post.html", form = form)
+
+# Create View Posts Page
+@app.route('/posts')
+def posts():
+    # Get posts from db
+    posts = Posts.query.order_by(Posts.date_posted)
+    return render_template("posts.html", posts=posts)
+
+# Create View Individual Post Page
+@app.route('/posts/<int:id>')
+def post(id):
+    post = Posts.query.get_or_404(id)
+    return render_template('post.html', post=post)
+
+# Create Edit Post Page
+@app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+def edit_post(id):
+    post = Posts.query.get_or_404(id)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.author = form.author.data
+        post.slug = form.slug.data
+        post.content = form.content.data
+        # Update db
+        db.session.add(post)
+        db.session.commit()
+        flash("Post Updated Successfully!")
+        return redirect(url_for('post', id=post.id))
+    form.title.data = post.title
+    form.author.data = post.author
+    form.slug.data = post.slug
+    form.content.data = post.content
+    return render_template('edit_post.html', form = form)
+
+# Create Delete Post Page
+@app.route('/posts/delete/<int:id>')
+def delete_post(id):
+    post_to_delete = Posts.query.get_or_404(id)
+    try:
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        flash("Post Deleted Successfully!")
+        posts = Posts.query.order_by(Posts.date_posted)
+        return render_template("posts.html", posts=posts)
+    except:
+        flash("Whoops! There Was A Problem Deleting The Post!")
+        posts = Posts.query.order_by(Posts.date_posted)
+        return render_template("posts.html", posts=posts)
 
 @app.route("/logout")
 def logout():
