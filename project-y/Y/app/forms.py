@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, Length
+from wtforms.widgets import TextArea
 
 # Create Register Form Class
 class Register(FlaskForm):
@@ -8,10 +9,18 @@ class Register(FlaskForm):
     email = StringField("Email Address", validators=[Email(), DataRequired()])
     password_hash = PasswordField("Password", validators=[DataRequired(), EqualTo('password_hash2', message='Passwords Must Match!')])
     password_hash2 = PasswordField("Confirm Password", validators=[DataRequired()])
-    submit = SubmitField("Register")
+    submit = SubmitField("Submit")
 
 # Create Login Form Class
 class Login(FlaskForm):
     email = StringField("Email", validators=[Email(), DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Login")
+    submit = SubmitField("Submit")
+
+# Create Posts Form Class
+class PostForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    content = StringField("Content", validators=[DataRequired()], widget=TextArea())
+    author = StringField("Author", validators=[DataRequired()])
+    slug = StringField("Slug", validators=[DataRequired()])
+    submit = SubmitField("Submit")

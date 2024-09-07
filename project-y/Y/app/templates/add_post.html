@@ -9,19 +9,22 @@
 </div>
 {% endfor %}
 
-<h1>User Profile</h1>
+<h1>Add Post</h1>
 <br/>
 <div class="shadow p-3 mb-5 bg-body rounded">
-<form action="/user_profile/{{ name_to_update.id }}" method="POST">
+<form method="POST">
   {{ form.hidden_tag() }}
-  {{ form.name.label(class="form-label") }}
-  {{ form.name(class="form-control", value=name_to_update.name) }}
+  {{ form.title.label(class="form-label") }}
+  {{ form.title(class="form-control") }}
   <br/>
-  {{ form.email.label(class="form-label") }}
-  {{ form.email(class="form-control", value=name_to_update.email) }}
+  {{ form.author.label(class="form-label") }}
+  {{ form.author(class="form-control") }}
   <br/>
-  {{ form.password_hash.label(class="form-label") }}
-  {{ form.password_hash(class="form-control", value=name_to_update.password_hash) }}
+  {{ form.slug.label(class="form-label") }}
+  {{ form.slug(class="form-control") }}
+  <br/>
+  {{ form.content.label(class="form-label") }}
+  {{ form.content(class="form-control", rows="5") }}
   <br/>
   {{ form.submit(class="btn btn-dark") }}
 </form>
