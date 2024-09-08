@@ -5,8 +5,9 @@ caio-venancio
 
 MM4k
 # Para rodar o projeto
-Tenha certeza de ter todos os pacotes
-Sincronize seu banco de dados com Flask_migrate
-  flask db init
-  flask db migrate -m 'nome_da_migração'
+Tenha certeza de ter todos os pacotes.
+
+Sincronize seu banco de dados com Flask_migrate:<br>
+  flask db init<br>
+  flask db migrate -m 'nome_da_migração'<br>
   flask db upgrade
