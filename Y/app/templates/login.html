@@ -1,5 +1,30 @@
 {% extends "base.html" %}
-{% block title %}Login{% endblock %}
+
 {% block content %}
-  <h2>Login</h2>
+
+{% if name %}
+  <h1>You've Logged In!</h1>
+{% else %}
+  <h1>Login Form</h1>
+  <br/>
+  <div class="shadow p-3 mb-5 bg-body rounded">
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    {{ form.username.label(class="form-label") }}
+    {{ form.username(class="form-control") }}
+    <br/>
+    {{ form.password.label(class="form-label") }}
+    {{ form.password(class="form-control") }}
+    <br/>
+    {{ form.submit(class="btn btn-dark") }}
+    </br>
+    <p> </p>
+    <p>Has not an account? Sign-in.</p>
+    <a href="{{ url_for('register') }}" class="btn btn-dark">Register</a>
+  </form>
+  </div>
+
+{% endif %}
+
 {% endblock %}

@@ -5,3 +5,5 @@
 5. add links to navbar
 6. add forms to html 
 7. happiness #swiftie
+
+Fiz os forms do register e do login!!!

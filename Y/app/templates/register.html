@@ -1,6 +1,51 @@
-{% extends "base.html" %}
-{% block title %}Register{% endblock %}
+{% extends 'base.html' %}
+
 {% block content %}
-  <h2>Register</h2>
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+{% if name %}
+  <h1>Hello {{ name }}!</h1>
+{% else %}
+  <h1>Registration Form</h1>
+  <br/>
+  <div class="shadow p-3 mb-5 bg-body rounded">
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.name.label(class="form-label") }}
+    {{ form.name(class="form-control") }}
+    <br/>
+    {{ form.username.label(class="form-label") }}
+    {{ form.username(class="form-control") }}
+    <br/>
+    {{ form.email.label(class="form-label") }}
+    {{ form.email(class="form-control") }}
+    <br/>
+    {{ form.password_hash.label(class="form-label") }}
+    {{ form.password_hash(class="form-control") }}
+    <br/>
+    {{ form.password_hash2.label(class="form-label") }}
+    {{ form.password_hash2(class="form-control") }}
+    <br/>
+    {{ form.submit(class="btn btn-dark") }}
+    <a href="{{ url_for('login') }}" class="btn btn-dark">Login</a>
+  </form>
+  </div>
+
+<br/><br/>
+<table class="table table-striped table-hover table-bordered">
+{% for our_user in our_users %}
+  <tr>
+  <td>{{ our_user.id }}. <a href="{{ url_for('user_profile', id=our_user.id) }}">{{ our_user.name }}</a> - {{ our_user.email }} - {{ our_user.password_hash }} - <a href="{{ url_for('delete', id=our_user.id) }}">Delete</a></td>
+  </tr>
+{% endfor %}
+</table>
+
+{% endif %}
 
 {% endblock %}
