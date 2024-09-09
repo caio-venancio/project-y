@@ -4,7 +4,7 @@ from app import app, db
 from app.forms import Register, LoginForm, PostForm
 from app.models import Users, Posts
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_required, login_user, LoginManager, logout_user
+from flask_login import login_required, login_user, LoginManager, logout_user, current_user
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -51,10 +51,9 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    # next_page = request.args.get('next')
-    # # print('próxima página!',next_page)
-    # if next_page == '/':
-    #     print('TRUE')
+    next_page = request.args.get('next')
+    if next_page == '/' or next_page == '/home':
+        print('TRUE')
 
     # Validate Form
     print(form.validate_on_submit())
@@ -74,6 +73,19 @@ def login():
             print('that user doesn\'t exist')
     logout_user()
     return render_template('login.html', form=form)
+
+#criando o logout
+@app.route("/logout", methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    print('logout sucedido')
+    return redirect(url_for('login'))
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
 
 # Create User Profile Page
 @app.route('/user_profile/<int:id>', methods=['GET', 'POST'])
@@ -172,10 +184,6 @@ def delete_post(id):
         flash("Whoops! There Was A Problem Deleting The Post!")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template("posts.html", posts=posts)
-
-@app.route("/logout")
-def logout():
-    return redirect(url_for('login'))
 
 @app.route("/like/<int:post_id>", methods=['POST'])
 def like_post(post_id):
