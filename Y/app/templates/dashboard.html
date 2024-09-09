@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Dashboard!!</h1>
+    <h1>Dashboard</h1>
     </br>
     
     <div class="card">
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">
-                Seja bem-vindo a sua personalização de usuário!
+                Welcome to the User Dashboard!
             </h5>
             <p class="card-text">
                 <strong>Username:</strong> {{ current_user.username }}<br/>
@@ -19,7 +19,7 @@
                 <strong>Since:</strong> {{ current_user.date_added }}<br/>
             </p>
         </div>
-        <a href="url_for('logout')" class="btn btn-secondary btn-sm">Logout</a>
+        <a href="{{url_for('logout')}}" class="btn btn-secondary btn-sm">Logout</a>
     </div>
 
     <br/><br/>
