@@ -128,7 +128,8 @@ def delete(id):
 def add_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug=form.slug.data)
+        poster = current_user.id
+        post = Posts(title=form.title.data, content=form.content.data, poster_id=poster, slug=form.slug.data)
         # Add post data to db
         db.session.add(post)
         db.session.commit()
@@ -156,7 +157,7 @@ def edit_post(id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
-        post.author = form.author.data
+        # post.author = form.author.data
         post.slug = form.slug.data
         post.content = form.content.data
         # Update db
@@ -164,26 +165,46 @@ def edit_post(id):
         db.session.commit()
         flash("Post Updated Successfully!")
         return redirect(url_for('post', id=post.id))
-    form.title.data = post.title
-    form.author.data = post.author
-    form.slug.data = post.slug
-    form.content.data = post.content
-    return render_template('edit_post.html', form = form)
+    if current_user.id == post.poster_id:
+        form.title.data = post.title
+        # form.author.data = post.author
+        form.slug.data = post.slug
+        form.content.data = post.content
+        return render_template('edit_post.html', form=form)
+    else:
+        flash("You're Not Authorized To Edit That Post!")
+        return render_template('post.html', post=post)
 
 # Create Delete Post Page
 @app.route('/posts/delete/<int:id>')
+@login_required
 def delete_post(id):
     post_to_delete = Posts.query.get_or_404(id)
-    try:
-        db.session.delete(post_to_delete)
-        db.session.commit()
-        flash("Post Deleted Successfully!")
+    id = current_user.id
+    if id == post_to_delete.poster.id:
+        try:
+            db.session.delete(post_to_delete)
+            db.session.commit()
+            flash("Post Deleted Successfully!")
+            posts = Posts.query.order_by(Posts.date_posted)
+            return render_template("posts.html", posts=posts)
+        except:
+            flash("Whoops! There Was A Problem Deleting The Post!")
+            posts = Posts.query.order_by(Posts.date_posted)
+            return render_template("posts.html", posts=posts)
+    else:
+        flash("You're Not Authorized To Delete That Post!")
         posts = Posts.query.order_by(Posts.date_posted)
         return render_template("posts.html", posts=posts)
-    except:
-        flash("Whoops! There Was A Problem Deleting The Post!")
-        posts = Posts.query.order_by(Posts.date_posted)
-        return render_template("posts.html", posts=posts)
+    
+@app.route('/admin')
+@login_required
+def admin():
+    id = current_user.id
+    if id == 1:
+        return render_template("admin.html")
+    else:
+        return redirect(url_for('home'))
 
 @app.route("/like/<int:post_id>", methods=['POST'])
 def like_post(post_id):
