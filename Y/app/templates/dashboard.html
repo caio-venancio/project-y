@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Dashboard</h1>
+    <h1>User Profile</h1>
     </br>
-    
     <div class="card">
         <div class="card-header">
             <strong>Name:</strong> {{ current_user.name }}<br/>
         </div>
         <div class="card-body">
             <h5 class="card-title">
-                Welcome to the User Dashboard!
+                Welcome to the User Profile Page!
             </h5>
             <p class="card-text">
                 <strong>Username:</strong> {{ current_user.username }}<br/>
@@ -18,14 +17,29 @@
                 <strong>Email:</strong> {{ current_user.email }}<br/>
                 <strong>Since:</strong> {{ current_user.date_added }}<br/>
             </p>
+            <a href="{{url_for('update_profile', id=current_user.id)}}" class="btn btn-dark">Update Profile</a>
+            <a href="{{url_for('logout')}}" class="btn btn-dark">Logout</a>
+            <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger">Delete</a>
         </div>
-        <a href="{{url_for('logout')}}" class="btn btn-secondary btn-sm">Logout</a>
     </div>
-
-    <br/><br/>
-   
-    <br/><br/>
-
-    
-    <strong>Configurações</strong> (Em breve)<br/>
+    <br/>
+    <div class="card">
+        <div class="card-header">
+            Update Profile
+        </div>
+        <div class="card-body">
+            <form action="/dashboard" method="POST">
+                {{ form.hidden_tag() }}
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", value=name_to_update.name) }}
+                <br/>
+                {{ form.username.label(class="form-label") }}
+                {{ form.username(class="form-control", value=name_to_update.username) }}
+                <br/>
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control", value=name_to_update.email) }}
+                <br/>
+                {{ form.submit(class="btn btn-dark") }}
+            </form>
+        </div>
 {% endblock %}

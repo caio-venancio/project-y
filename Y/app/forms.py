@@ -14,9 +14,9 @@ class Register(FlaskForm):
 
 # Create Login Form Class
 class LoginForm(FlaskForm):
-    username = StringField("username", validators=[DataRequired()])
+    username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
-    submit = SubmitField("Login")
+    submit = SubmitField("Submit")
 
 # Create Posts Form Class
 class PostForm(FlaskForm):
@@ -24,4 +24,9 @@ class PostForm(FlaskForm):
     content = StringField("Content", validators=[DataRequired()], widget=TextArea())
     author = StringField("Author")
     slug = StringField("Slug", validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+# Create Search Form Class
+class SearchForm(FlaskForm):
+    searched = StringField("Searched", validators=[DataRequired()])
     submit = SubmitField("Submit")

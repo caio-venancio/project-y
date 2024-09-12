@@ -33,19 +33,8 @@
     {{ form.password_hash2(class="form-control") }}
     <br/>
     {{ form.submit(class="btn btn-dark") }}
-    <a href="{{ url_for('login') }}" class="btn btn-dark">Login</a>
   </form>
   </div>
-
-<br/><br/>
-<table class="table table-striped table-hover table-bordered">
-{% for our_user in our_users %}
-  <tr>
-  <td>{{ our_user.id }}. <a href="{{ url_for('user_profile', id=our_user.id) }}">{{ our_user.username }}</a> - {{ our_user.email }} - {{ our_user.password_hash }} - <a href="{{ url_for('delete', id=our_user.id) }}">Delete</a></td>
-  </tr>
-{% endfor %}
-</table>
-
 {% endif %}
 
 {% endblock %}
