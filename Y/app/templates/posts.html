@@ -9,19 +9,42 @@
 </div>
 {% endfor %}
 
-<h1>Posts</h1>
+<h1 class="text-center my-4">Posts</h1>
 <br/>
+
+<!-- Exibe todos os posts -->
 {% for post in posts %}
-<div class="shadow p-3 mb-5 bg-body rounded">
-    <h2><a href="{{ url_for('post', id=post.id) }}">{{ post.title }}</a></h2>
-    By: {{ post.poster.username }}<br/>
-    {{ post.content }}<br/>
-    <small>{{ post.date_posted }}</small><br/><br/>
-    {% if post.poster_id == current_user.id or current_user.id == 1 %}
-      <a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-outline-dark">Edit</a>
-      <a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-outline-danger">Delete</a>
-    {% endif %}
+<div class="shadow-sm p-3 mb-4 bg-white rounded border">
+
+    <!-- Título do post -->
+    <h3 class="post-title mb-1"><a href="{{ url_for('post', id=post.id) }}">{{ post.title }}</a></h3>
+
+    <!-- Avatar, nome do usuário e data -->
+    <div class="d-flex align-items-center mb-2">
+        <img src="{{ url_for('static', filename='images/avatar_placeholder.png') }}" alt="Avatar" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+        <div>
+            <small class="post-username text-muted">{{ post.poster.username }}</small><br/>
+            <small class="text-muted">{{ post.date_posted.strftime('%b %d, %Y %H:%M') }}</small>
+        </div>
+    </div>
+
+    <!-- Conteúdo do post -->
+    <div class="post-content mb-4">
+        <p>{{ post.content }}</p>
+    </div>
+
+    <!-- Links de ações (Editar/Excluir) se o usuário for o autor ou admin -->
+    <div class="d-flex justify-content-start">
+        {% if post.poster_id == current_user.id or current_user.id == 1 %}
+        <a href="{{ url_for('edit_post', id=post.id) }}" class="me-3 action-link"><i class="fas fa-edit"></i> Edit</a>
+        <a href="{{ url_for('delete_post', id=post.id) }}" class="action-link"><i class="fas fa-trash-alt"></i> Delete</a>
+        {% endif %}
+    </div>
+    
 </div>
+<br/><br/>
 {% endfor %}
 
 {% endblock %}
+
+

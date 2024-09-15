@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<!-- Exibir mensagens de sucesso/erro -->
 {% for message in get_flashed_messages() %}
 <div class="alert alert-success alert-dismissible fade show" role="alert">
   {{ message }}
@@ -9,25 +10,38 @@
 </div>
 {% endfor %}
 
-<h1>User Profile</h1>
+<!-- Cabeçalho da página -->
+<h1 class="text-center my-4">Update User Profile</h1>
 <br/>
-<div class="shadow p-3 mb-5 bg-body rounded">
-<form action="/update_profile/{{ name_to_update.id }}" method="POST">
-  {{ form.hidden_tag() }}
-  {{ form.name.label(class="form-label") }}
-  {{ form.name(class="form-control", value=name_to_update.name) }}
-  <br/>
-  {{ form.username.label(class="form-label") }}
-  {{ form.username(class="form-control", value=name_to_update.username) }}
-  <br/>
-  {{ form.email.label(class="form-label") }}
-  {{ form.email(class="form-control", value=name_to_update.email) }}
-  <br/>
-  {{ form.password_hash.label(class="form-label") }}
-  {{ form.password_hash(class="form-control", value=name_to_update.password_hash) }}
-  <br/>
-  {{ form.submit(class="btn btn-dark") }}
-</form>
+
+<!-- Cartão para o formulário de atualização -->
+<div class="shadow-sm p-3 mb-4 bg-white rounded border">
+    <form action="/update_profile/{{ name_to_update.id }}" method="POST">
+        {{ form.hidden_tag() }}
+
+        <!-- Campo Nome -->
+        <div class="mb-3">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control", value=name_to_update.name) }}
+        </div>
+
+        <!-- Campo Username -->
+        <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control", value=name_to_update.username) }}
+        </div>
+
+        <!-- Campo Email -->
+        <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control", value=name_to_update.email) }}
+        </div>
+
+        <!-- Botão de envio -->
+        <div class="d-flex justify-content-between">
+            {{ form.submit(class="btn btn-dark") }}
+        </div>
+    </form>
 </div>
 
 {% endblock %}

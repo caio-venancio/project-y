@@ -9,22 +9,33 @@
 </div>
 {% endfor %}
 
-<h1>Add Post</h1>
+<h1 class="text-center my-4">Add Post</h1>
 <br/>
-<div class="shadow p-3 mb-5 bg-body rounded">
-<form method="POST">
-  {{ form.hidden_tag() }}
-  {{ form.title.label(class="form-label") }}
-  {{ form.title(class="form-control") }}
-  <br/>
-  {{ form.slug.label(class="form-label") }}
-  {{ form.slug(class="form-control") }}
-  <br/>
-  {{ form.content.label(class="form-label") }}
-  {{ form.content(class="form-control", rows="5") }}
-  <br/>
-  {{ form.submit(class="btn btn-dark") }}
-</form>
+
+<div class="shadow-sm p-3 mb-4 bg-white rounded border">
+
+    <!-- Formulário para adicionar post -->
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <!-- Campo para título do post -->
+        <div class="mb-3">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+        </div>
+
+        <!-- Campo para conteúdo do post -->
+        <div class="mb-4">
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", rows="5") }}
+        </div>
+
+        <!-- Botão para adicionar post -->
+        <div class="d-flex justify-content-between">
+            {{ form.submit(class="btn btn-dark") }}
+        </div>
+    </form>
+
 </div>
 
 {% endblock %}

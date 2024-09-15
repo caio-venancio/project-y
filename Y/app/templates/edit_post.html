@@ -9,23 +9,34 @@
 </div>
 {% endfor %}
 
-<h1>Posts</h1>
+<h1 class="text-center my-4">Edit Post</h1>
 <br/>
-<div class="shadow p-3 mb-5 bg-body rounded">
+
+<div class="shadow-sm p-3 mb-4 bg-white rounded border">
+
+    <!-- Formulário para editar o post -->
     <form method="POST">
         {{ form.hidden_tag() }}
-        {{ form.title.label(class="form-label") }}
-        {{ form.title(class="form-control") }}
-        <br/>
-        {{ form.slug.label(class="form-label") }}
-        {{ form.slug(class="form-control") }}
-        <br/>
-        {{ form.content.label(class="form-label") }}
-        {{ form.content(class="form-control", rows="5") }}
-        <br/>
-        {{ form.submit(class="btn btn-dark") }}
-        <a href="{{ url_for('posts') }}" class="btn btn-outline-dark">Return</a>
-      </form>
+
+        <!-- Campo para editar o título -->
+        <div class="mb-3">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+        </div>
+
+        <!-- Campo para editar o conteúdo -->
+        <div class="mb-4">
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", rows="5") }}
+        </div>
+
+        <!-- Botões de ação: Salvar e Voltar -->
+        <div class="d-flex justify-content-between">
+            {{ form.submit(class="btn btn-dark") }}
+            <a href="{{ url_for('posts') }}" class="btn btn-dark">Return</a>
+        </div>
+    </form>
+
 </div>
 
 {% endblock %}
