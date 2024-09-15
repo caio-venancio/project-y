@@ -110,7 +110,6 @@ def update_profile(id):
         name_to_update.name = request.form.get('name')
         name_to_update.username = request.form.get('username')
         name_to_update.email = request.form.get('email')
-        name_to_update.password_hash = request.form.get('password_hash')  
         try:
             db.session.commit()
             flash("User Updated Successfully!")
@@ -125,23 +124,26 @@ def update_profile(id):
 @app.route('/delete/<int:id>')
 @login_required
 def delete(id):
-    if id == current_user.id:
+    if current_user.id == id or current_user.id == 1:
         user_to_delete = Users.query.get_or_404(id)
-        name = None
-        password_hash = None
-        form = Register()
         try:
             db.session.delete(user_to_delete)
             db.session.commit()
             flash("User Deleted Successfully!")
-            our_users = Users.query.order_by(Users.date_added)
-            return redirect(url_for('register'))
-        except:
-            flash("Whoops! There Was A Problem Deleting The User!")
+            
+            # Keep admin on database page
+            if current_user.id == 1:
+                return redirect(url_for('database'))
+            else:
+                return redirect(url_for('register'))
+        except Exception as e:
+            flash(f"Whoops! There Was A Problem Deleting The User: {str(e)}")
             return redirect(url_for('dashboard'))
     else:
-        flash("Sorry, You Can't Delete That User!")
+        flash("Sorry, You Don't Have Permission To Delete This User!")
         return redirect(url_for('dashboard'))
+
+
     
 # Create Add Posts Page
 @app.route('/add-post', methods=['GET', 'POST'])
@@ -149,7 +151,7 @@ def add_post():
     form = PostForm()
     if form.validate_on_submit():
         poster = current_user.id
-        post = Posts(title=form.title.data, content=form.content.data, poster_id=poster, slug=form.slug.data)
+        post = Posts(title=form.title.data, content=form.content.data, poster_id=poster)
         # Add post data to db
         db.session.add(post)
         db.session.commit()
@@ -177,16 +179,14 @@ def edit_post(id):
     form = PostForm()
     if form.validate_on_submit():
         post.title = form.title.data
-        post.slug = form.slug.data
         post.content = form.content.data
         # Update db
         db.session.add(post)
         db.session.commit()
         flash("Post Updated Successfully!")
         return redirect(url_for('post', id=post.id))
-    if current_user.id == post.poster_id or current_user == 1:
+    if current_user.id == post.poster_id or current_user.id == 1:
         form.title.data = post.title
-        form.slug.data = post.slug
         form.content.data = post.content
         return render_template('edit_post.html', form=form)
     else:
@@ -242,6 +242,19 @@ def admin():
         return render_template("admin.html")
     else:
         return redirect(url_for('home'))
+    
+@app.route('/admin/database', methods=['GET', 'POST'])
+@login_required
+def database():
+    # Verify if the user is an admin
+    if current_user.id != 1:
+        flash("You're not authorized to access this page!")
+        return redirect(url_for('home'))
+    # Query the database for users and posts
+    all_users = Users.query.order_by(Users.date_added).all()
+    all_posts = Posts.query.order_by(Posts.date_posted).all()
+    return render_template('database.html', users=all_users, posts=all_posts)
+
 
 @app.route("/like/<int:post_id>", methods=['POST'])
 def like_post(post_id):

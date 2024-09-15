@@ -3,6 +3,115 @@ h1 {
     font-size:45px
 }
 
+h2 {
+    color: rgb(255, 255, 255);
+    font-size:33px
+}
+
 body {
     background: #8461ca;
+}
+
+.post-content {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.text-muted {
+    color: #657786 !important;
+}
+
+a.text-muted:hover {
+    color: #8461ca !important;
+}
+
+/* Estilo do título do post */
+.post-title a {
+    text-decoration: none;
+    color: #000; /* Cor padrão do título */
+    font-weight: bold;
+    font-size: 1.25rem; /* Aumenta o tamanho do título */
+}
+
+.post-title a:hover {
+    color: #8461ca; /* Cor ao passar o mouse sobre o título */
+    text-decoration: none;
+}
+
+/* Estilo do nome de usuário */
+.post-username {
+    font-size: 0.85rem; /* Diminui o tamanho da fonte do nome de usuário */
+    color: #657786; /* Cor sutil para o nome de usuário */
+}
+
+/* Estilo do conteúdo do post */
+.post-content {
+    margin-top: 20px; /* Aumenta o espaço entre o nome/username e o conteúdo */
+    padding: 15px; /* Adiciona um leve padding ao redor do conteúdo */
+    background-color: #f8f9fa; /* Cor de fundo suave para destacar o conteúdo */
+    border-radius: 8px; /* Bordas arredondadas para o conteúdo */
+    font-size: 1rem; /* Tamanho da fonte do conteúdo */
+    line-height: 1.6; /* Aumenta o espaçamento entre linhas para facilitar a leitura */
+}
+
+/* Links de ação (Editar/Deletar) */
+.action-link {
+    text-decoration: none;
+    color: #657786; /* Cor padrão dos links de ação */
+    font-size: 0.85rem; /* Tamanho menor para os links */
+}
+
+.action-link:hover {
+    color: #8461ca;
+    text-decoration: none;
+}
+
+.action-link i {
+    margin-right: 5px; /* Espaçamento entre o ícone e o texto */
+}
+
+/* Estilo para os rótulos e campos do formulário */
+.form-label {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.form-control {
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    padding: 8px 15px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #343a40; /* Cor de hover mais clara */
+    border-radius: 5px;
+}
+
+.form-control {
+    border-radius: 20px !important; /* Estilo mais moderno para o campo de pesquisa */
+}
+
+/* Botão com borda roxa */
+.btn-outline-primary {
+    border-radius: 20px;
+    border-color: #8461c9; /* Cor da borda roxa */
+    color: #8461c9; /* Cor do texto roxa */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Botão ao passar o mouse (hover) */
+.btn-outline-primary:hover {
+    background-color: #8461c9; /* Cor de fundo roxa ao hover */
+    color: #ffffff; /* Cor do texto branca no hover */
 }
