@@ -19,7 +19,11 @@
 
     <!-- Avatar, nome do usuário e data -->
     <div class="d-flex align-items-center mb-2">
-        <img src="{{ url_for('static', filename='images/avatar_placeholder.png') }}" alt="Avatar" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+        {% if post.poster.profile_pic %}
+            <img src="{{ url_for('static', filename='images/' + post.poster.profile_pic) }}" alt="Avatar" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/default-profile-picture.jpg') }}" alt="Avatar" class="rounded-circle me-2" style="width: 50px; height: 50px;">
+        {% endif %}
         <div>
             <small class="post-username text-muted">{{ post.poster.username }}</small><br/>
             <small class="text-muted">{{ post.date_posted.strftime('%b %d, %Y %H:%M') }}</small>
