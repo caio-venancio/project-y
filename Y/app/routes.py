@@ -1,10 +1,13 @@
 print('começando routes')
 from flask import render_template, url_for, flash, redirect, request
 from app import app, db
-from app.forms import Register, LoginForm, PostForm, SearchForm
+from app.forms import RegisterForm, LoginForm, PostForm, SearchForm
 from app.models import Users, Posts
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_required, login_user, LoginManager, logout_user, current_user
+from werkzeug.utils import secure_filename
+import uuid as uuid
+import os
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -26,7 +29,7 @@ def home():
 def register():
     name = None
     password_hash = None
-    form = Register()
+    form = RegisterForm()
     # Validate Form
     if form.validate_on_submit():
         user = Users.query.filter_by(email=form.email.data).first()
@@ -81,22 +84,37 @@ def logout():
     print('logout sucedido')
     return redirect(url_for('login'))
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    form = Register()
+    form = RegisterForm()
     id = current_user.id
     name_to_update = Users.query.get_or_404(id)
     if request.method == "POST":
         name_to_update.name = request.form.get('name')
         name_to_update.username = request.form.get('username')
         name_to_update.email = request.form.get('email')
-        try:
+        # Check for profile pic
+        if request.files.get('profile_pic'):
+            name_to_update.profile_pic = request.files.get('profile_pic')
+            # Grab Image Name
+            pic_filename = secure_filename(name_to_update.profile_pic.filename)
+            # Set UUID
+            pic_name = str(uuid.uuid1()) + "_" + pic_filename
+            # Save Image
+            name_to_update.profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], pic_name))
+            # Change to text to save to db
+            name_to_update.profile_pic = pic_name
+            try:
+                db.session.commit()
+                flash("User Updated Successfully!")
+                return render_template('dashboard.html', name_to_update = name_to_update, form = form)
+            except:
+                flash("Whoops! There Was A Problem Updating The User!")
+                return render_template('dashboard.html', name_to_update = name_to_update, form = form)
+        else:
             db.session.commit()
             flash("User Updated Successfully!")
-            return render_template('dashboard.html', name_to_update = name_to_update, form = form)
-        except:
-            flash("Whoops! There Was A Problem Updating The User!")
             return render_template('dashboard.html', name_to_update = name_to_update, form = form)
     else:
         return render_template('dashboard.html', name_to_update = name_to_update, form = form)
@@ -104,7 +122,7 @@ def dashboard():
 # Create Update User Profile Page
 @app.route('/update_profile/<int:id>', methods=['GET', 'POST'])
 def update_profile(id):
-    form = Register()
+    form = RegisterForm()
     name_to_update = Users.query.get_or_404(id)
     if request.method == "POST":
         name_to_update.name = request.form.get('name')

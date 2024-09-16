@@ -11,16 +11,32 @@
             <strong>Name:</strong> {{ current_user.name }}<br/>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Welcome to the User Profile Page!</h5>
-            <p class="card-text">
-                <strong>Username:</strong> {{ current_user.username }}<br/>
-                <strong>Id:</strong> {{ current_user.id }}<br/>
-                <strong>Email:</strong> {{ current_user.email }}<br/>
-                <strong>Since:</strong> {{ current_user.date_added.strftime('%b %d, %Y') }}<br/>
-            </p>
-            <div class="d-flex justify-content-start">
-                <a href="{{url_for('update_profile', id=current_user.id)}}" class="btn btn-dark me-2">Update Profile</a>
-                <a href="{{url_for('logout')}}" class="btn btn-dark me-2">Logout</a>
+            <div class="container">
+                <div class="row">
+                    <!-- Informações do Usuário -->
+                    <div class="col-md-8">
+                        <p class="card-text">
+                            <strong>Username:</strong> {{ current_user.username }}<br/>
+                            <strong>Id:</strong> {{ current_user.id }}<br/>
+                            <strong>Email:</strong> {{ current_user.email }}<br/>
+                            <strong>Since:</strong> {{ current_user.date_added.strftime('%b %d, %Y') }}<br/>
+                        </p>
+                    </div>
+                    <!-- Imagem de Perfil -->
+                    {% if current_user.profile_pic %}
+                        <div class="col-md-4 text-end">
+                            <img src="{{ url_for('static', filename='images/' + current_user.profile_pic) }}" width="200" class="img-fluid rounded" alt="Profile Picture">
+                        </div>
+                    {% else %}
+                        <div class="col-md-4 text-end">
+                            <img src="{{ url_for('static', filename='images/default-profile-picture.jpg') }}" width="200" class="img-fluid rounded" alt="Profile Picture">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex justify-content-start mt-3">
+                <a href="{{ url_for('update_profile', id=current_user.id) }}" class="btn btn-dark me-2">Update Profile</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-dark me-2">Logout</a>
                 <a href="{{ url_for('delete', id=current_user.id) }}" class="btn btn-danger">Delete</a>
             </div>
         </div>
@@ -32,7 +48,7 @@
             Update Profile
         </div>
         <div class="card-body">
-            <form action="/dashboard" method="POST">
+            <form action="/dashboard" method="POST" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 
                 <!-- Campo Nome -->
@@ -53,6 +69,11 @@
                     {{ form.email(class="form-control", value=name_to_update.email) }}
                 </div>
 
+                <div class="mb-4">
+                    {{ form.profile_pic.label(class="form-label") }}
+                    {{ form.profile_pic(class="form-control", value=name_to_update.profile_pic) }}
+                </div>
+
                 <!-- Botão para Atualizar Perfil -->
                 <div class="d-flex justify-content-between">
                     {{ form.submit(class="btn btn-dark") }}
@@ -62,3 +83,5 @@
     </div>
 
 {% endblock %}
+
+

@@ -10,6 +10,7 @@ class Users(db.Model, UserMixin):
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), nullable=False, unique=True)
     date_added = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    profile_pic = db.Column(db.Text, nullable=True)
     # User Can Have Many Posts
     posts = db.relationship('Posts', backref='poster')
 
