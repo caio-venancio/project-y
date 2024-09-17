@@ -1,0 +1,28 @@
+
+services:
+  flask_app_2:
+    container_name: flask_app_2
+    build: .
+    # command: python -u app.py
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL=postgresql://postgres:4321@flask_db_2:5432/db-uai
+      - SECRET_KEY=chave_secreta
+    # volumes:
+    #   - .:/app
+    # links:
+    #   - db
+    depends_on:
+      - flask_db_2
+  flask_db_2:
+    container_name: flask_db_2
+    image: postgres:12
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=4321
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=db-uai
+    # volumes:
+    #   - my_postgres_data:/var/lib/postgresql/data
